@@ -42,6 +42,7 @@ public class StudentService {
         student.setName(dto.name());
         student.setBirthDate(dto.birthDate());
         student.setEmail((dto.email()));
+        student.setGenre(dto.genre());
 
         return student;
     }
@@ -51,6 +52,7 @@ public class StudentService {
                 student.getId(),
                 student.getName(),
                 student.getBirthDate(),
-                student.getEmail());
+                student.getEmail(),
+                student.getGenre());
     }
 }

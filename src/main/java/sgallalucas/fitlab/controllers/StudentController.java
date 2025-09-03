@@ -68,6 +68,7 @@ public class StudentController {
         s.setName(student.getName());
         s.setBirthDate(student.getBirthDate());
         s.setEmail(student.getEmail());
+        s.setGenre(student.getGenre());
 
         service.update(s);
 
