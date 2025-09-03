@@ -2,6 +2,7 @@ package sgallalucas.fitlab.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sgallalucas.fitlab.dtos.StudentDto;
 import sgallalucas.fitlab.model.Student;
 import sgallalucas.fitlab.repositories.StudentRepository;
 
@@ -33,5 +34,23 @@ public class StudentService {
 
     public void delete(Student student) {
         repository.delete(student);
+    }
+
+    public Student convertToEntity(StudentDto dto) {
+        Student student = new Student();
+        student.setId(dto.id());
+        student.setName(dto.name());
+        student.setBirthDate(dto.birthDate());
+        student.setEmail((dto.email()));
+
+        return student;
+    }
+
+    public StudentDto convertToDto(Student student) {
+        return new StudentDto(
+                student.getId(),
+                student.getName(),
+                student.getBirthDate(),
+                student.getEmail());
     }
 }

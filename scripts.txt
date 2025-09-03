@@ -1,13 +1,18 @@
 # postgres server container
+
 docker run -d --name postgres-server -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=fitlab -p 5432:5432 postgres:17.6
 
 # pgadmin container
+
 docker run -d --name pgadmin4 -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=123 -p 55432:80 dpage/pgadmin4:9.7
 
 # tabela Student
+
 create table student(
 id uuid not null primary key,
 name varchar(255) not null,
 birth_date date not null,
-email varchar(255) not null
+email varchar(255) not null,
+registration_date timestamp,
+update_date timestamp
 );
