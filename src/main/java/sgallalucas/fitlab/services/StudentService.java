@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import sgallalucas.fitlab.model.Student;
 import sgallalucas.fitlab.repositories.StudentRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +23,15 @@ public class StudentService {
         return repository.findById(uuid);
     }
 
+    public List<Student> findAll() {
+        return repository.findAll();
+    }
+
     public void update(Student student) {
         repository.save(student);
+    }
+
+    public void delete(Student student) {
+        repository.delete(student);
     }
 }
