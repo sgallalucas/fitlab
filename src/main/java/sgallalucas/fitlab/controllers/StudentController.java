@@ -2,12 +2,14 @@ package sgallalucas.fitlab.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sgallalucas.fitlab.model.Student;
 import sgallalucas.fitlab.services.StudentService;
+
+import java.net.URI;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/students")
@@ -19,6 +21,35 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<Student> save(@RequestBody Student student) {
         service.save(student);
-        return ResponseEntity.ok().build();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/" + student.getId().toString()).buildAndExpand().toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Student>> findById(@PathVariable String id) {
+        var student = service.findById(UUID.fromString(id));
+
+        if (student.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(student);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody Student student) {
+        var optional = service.findById(UUID.fromString(id));
+
+        if (optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Student s = optional.get();
+        s.setName(student.getName());
+        s.setBirthDate(student.getBirthDate());
+        s.setEmail(student.getEmail());
+
+        service.update(s);
+
+        return ResponseEntity.noContent().build();
     }
 }
