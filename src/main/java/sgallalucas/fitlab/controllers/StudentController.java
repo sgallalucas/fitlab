@@ -82,8 +82,8 @@ public class StudentController {
         if (student.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        Student s = student.get();
-        service.delete(s);
+
+        service.delete(student.get());
 
         return ResponseEntity.noContent().build();
     }

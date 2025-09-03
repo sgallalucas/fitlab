@@ -18,6 +18,19 @@ registration_date timestamp,
 update_date timestamp
 );
 
+# tabela Professor
+
+create table professor(
+id uuid not null primary key,
+name varchar(255) not null,
+birth_date date not null,
+email varchar(255) not null,
+genre varchar(20) not null,
+specialization varchar(50),
+registration_date timestamp,
+update_date timestamp
+);
+
 # cria um tipo enumerado no postgres
 
 create type genre as enum('MALE', 'FEMALE', 'OTHER');
