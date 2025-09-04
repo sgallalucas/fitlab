@@ -25,7 +25,12 @@ public class StudentController {
     public ResponseEntity<StudentDto> save(@RequestBody StudentDto dto) {
         Student student = service.convertToEntity(dto);
         service.save(student);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/" + student.getId().toString()).buildAndExpand().toUri();
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/" + student.getId().toString())
+                .buildAndExpand()
+                .toUri();
+
         return ResponseEntity.created(location).build();
     }
 

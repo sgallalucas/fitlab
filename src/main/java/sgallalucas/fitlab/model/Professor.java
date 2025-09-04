@@ -10,7 +10,6 @@ import sgallalucas.fitlab.enums.Specialization;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +33,8 @@ public class Professor {
     private Instant registrationDate;
     @LastModifiedDate
     private Instant updateDate;
+
     @OneToMany(mappedBy = "professor")
-    private List<Workout> workouts = new ArrayList<>();
+    private List<Workout> workouts;
+
 }

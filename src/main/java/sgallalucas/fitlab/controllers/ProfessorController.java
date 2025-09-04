@@ -24,7 +24,12 @@ public class ProfessorController {
     public ResponseEntity<ProfessorDto> save(@RequestBody ProfessorDto dto) {
         Professor professor = service.convertToEntity(dto);
         service.save(professor);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/" + professor.getId().toString()).buildAndExpand().toUri();
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/" + professor.getId().toString())
+                .buildAndExpand()
+                .toUri();
+
         return ResponseEntity.created(location).build();
     }
 
