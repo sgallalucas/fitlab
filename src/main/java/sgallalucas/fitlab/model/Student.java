@@ -9,6 +9,8 @@ import sgallalucas.fitlab.enums.Genre;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -29,4 +31,6 @@ public class Student {
     private Instant registrationDate;
     @LastModifiedDate
     private Instant updateDate;
+    @OneToMany(mappedBy = "student")
+    private List<Workout> workouts = new ArrayList<>();
 }

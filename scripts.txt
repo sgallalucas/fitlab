@@ -31,6 +31,19 @@ registration_date timestamp,
 update_date timestamp
 );
 
+# tabela Workout
+
+create table workout(
+id uuid not null primary key,
+name varchar(100) not null,
+type varchar(100) not null,
+description text not null,
+professor_id uuid not null,
+student_id uuid not null,
+foreign key(professor_id) references professor(id),
+foreign key(student_id) references student(id)
+);
+
 # cria um tipo enumerado no postgres
 
 create type genre as enum('MALE', 'FEMALE', 'OTHER');
