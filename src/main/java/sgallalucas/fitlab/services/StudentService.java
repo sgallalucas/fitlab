@@ -7,7 +7,6 @@ import sgallalucas.fitlab.model.Student;
 import sgallalucas.fitlab.repositories.StudentRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,8 +19,9 @@ public class StudentService {
         return repository.save(student);
     }
 
-    public Optional<Student> findById(UUID uuid) {
-        return repository.findById(uuid);
+    public Student findById(UUID id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
     }
 
     public List<Student> findAll() {

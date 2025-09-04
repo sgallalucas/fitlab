@@ -2,10 +2,7 @@ package sgallalucas.fitlab.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import sgallalucas.fitlab.dtos.WorkoutDto;
 import sgallalucas.fitlab.model.Professor;
@@ -30,11 +27,9 @@ public class WorkoutController {
     @PostMapping
     public ResponseEntity<Workout> save(@RequestBody WorkoutDto dto) {
 
-        Professor professor = professorService.findById(UUID.fromString(dto.professorId()))
-                .orElseThrow(() -> new RuntimeException("Professor not found"));
+        Professor professor = professorService.findById(UUID.fromString(dto.professorId()));
 
-        Student student = studentService.findById(UUID.fromString(dto.studentId()))
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+        Student student = studentService.findById(UUID.fromString(dto.studentId()));
 
         Workout workout = new Workout();
 
@@ -53,5 +48,14 @@ public class WorkoutController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<WorkoutDto> findById(@PathVariable String id) {
+        Workout workout = service.findById(UUID.fromString(id));
+
+        WorkoutDto dto = service.convertToDto(workout);
+
+        return ResponseEntity.ok(dto);
     }
 }

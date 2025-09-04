@@ -7,7 +7,6 @@ import sgallalucas.fitlab.model.Professor;
 import sgallalucas.fitlab.repositories.ProfessorRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,8 +19,9 @@ public class ProfessorService {
         return repository.save(professor);
     }
 
-    public Optional<Professor> findById(UUID uuid) {
-        return repository.findById(uuid);
+    public Professor findById(UUID uuid) {
+        return repository.findById(uuid)
+                .orElseThrow(() -> new RuntimeException("Professor not found"));
     }
 
     public List<Professor> findAll() {

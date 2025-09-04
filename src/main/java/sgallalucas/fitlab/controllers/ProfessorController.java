@@ -35,13 +35,9 @@ public class ProfessorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProfessorDto> findById(@PathVariable String id) {
-        var optional = service.findById(UUID.fromString(id));
+        Professor professor = service.findById(UUID.fromString(id));
 
-        if (optional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        ProfessorDto dto = service.convertToDto(optional.get());
+        ProfessorDto dto = service.convertToDto(professor);
 
         return ResponseEntity.ok().body(dto);
     }
@@ -61,34 +57,26 @@ public class ProfessorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody ProfessorDto dto){
-        var optional = service.findById(UUID.fromString(id));
-        Professor professor = service.convertToEntity(dto);
+        Professor professor = service.findById(UUID.fromString(id));
 
-        if (optional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        Professor p = service.convertToEntity(dto);
 
-        Professor p = optional.get();
-        p.setName(professor.getName());
-        p.setBirthDate(professor.getBirthDate());
-        p.setEmail(professor.getEmail());
-        p.setGenre(professor.getGenre());
-        p.setSpecialization(professor.getSpecialization());
+        professor.setName(p.getName());
+        professor.setBirthDate(p.getBirthDate());
+        professor.setEmail(p.getEmail());
+        professor.setGenre(p.getGenre());
+        professor.setSpecialization(p.getSpecialization());
 
-        service.update(p);
+        service.update(professor);
 
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
-        var optional = service.findById(UUID.fromString(id));
+        Professor professor = service.findById(UUID.fromString(id));
 
-        if (optional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        service.delete(optional.get());
+        service.delete(professor);
 
         return ResponseEntity.noContent().build();
     }

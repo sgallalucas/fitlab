@@ -36,13 +36,9 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<StudentDto>> findById(@PathVariable String id) {
-        var student = service.findById(UUID.fromString(id));
+        Student student = service.findById(UUID.fromString(id));
 
-        if (student.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        StudentDto dto = service.convertToDto(student.get());
+        StudentDto dto = service.convertToDto(student);
 
         return ResponseEntity.ok().body(Optional.ofNullable(dto));
     }
@@ -62,18 +58,14 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody StudentDto dto) {
-        var optional = service.findById(UUID.fromString(id));
-        Student student = service.convertToEntity(dto);
+        Student student = service.findById(UUID.fromString(id));
 
-        if (optional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        Student s = service.convertToEntity(dto);
 
-        Student s = optional.get();
-        s.setName(student.getName());
-        s.setBirthDate(student.getBirthDate());
-        s.setEmail(student.getEmail());
-        s.setGenre(student.getGenre());
+        student.setName(s.getName());
+        student.setBirthDate(s.getBirthDate());
+        student.setEmail(s.getEmail());
+        student.setGenre(s.getGenre());
 
         service.update(s);
 
@@ -82,13 +74,9 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
-        var student = service.findById(UUID.fromString(id));
+        Student student = service.findById(UUID.fromString(id));
 
-        if (student.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        service.delete(student.get());
+        service.delete(student);
 
         return ResponseEntity.noContent().build();
     }
