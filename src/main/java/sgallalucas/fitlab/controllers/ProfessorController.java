@@ -1,5 +1,6 @@
 package sgallalucas.fitlab.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ProfessorController {
     private final ProfessorService service;
 
     @PostMapping
-    public ResponseEntity<ProfessorDto> save(@RequestBody ProfessorDto dto) {
+    public ResponseEntity<ProfessorDto> save(@RequestBody @Valid ProfessorDto dto) {
         Professor professor = service.convertToEntity(dto);
         service.save(professor);
 
@@ -56,7 +57,7 @@ public class ProfessorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody ProfessorDto dto){
+    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody @Valid ProfessorDto dto){
         Professor professor = service.findById(UUID.fromString(id));
 
         Professor p = service.convertToEntity(dto);

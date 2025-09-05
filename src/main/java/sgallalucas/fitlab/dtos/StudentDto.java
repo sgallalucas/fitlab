@@ -1,9 +1,6 @@
 package sgallalucas.fitlab.dtos;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.*;
 import sgallalucas.fitlab.enums.Genre;
 
 import java.time.LocalDate;
@@ -13,6 +10,7 @@ public record StudentDto(
         UUID id,
 
         @NotBlank(message = "Required field")
+        @Size(min = 3, message = "This field must have at least 3 characters")
         String name,
 
         @NotNull(message = "Required field")
