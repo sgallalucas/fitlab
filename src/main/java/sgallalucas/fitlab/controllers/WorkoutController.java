@@ -1,5 +1,6 @@
 package sgallalucas.fitlab.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class WorkoutController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<Workout> save(@RequestBody WorkoutDto dto) {
+    public ResponseEntity<Workout> save(@RequestBody @Valid WorkoutDto dto) {
 
         Professor professor = professorService.findById(UUID.fromString(dto.professorId()));
         Student student = studentService.findById(UUID.fromString(dto.studentId()));
@@ -75,7 +76,7 @@ public class WorkoutController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody WorkoutDto dto) {
+    public ResponseEntity<Void> update(@PathVariable String id, @RequestBody @Valid WorkoutDto dto) {
         Workout workout = service.findById(UUID.fromString(id));
 
         Professor professor = professorService.findById(UUID.fromString(dto.professorId()));
