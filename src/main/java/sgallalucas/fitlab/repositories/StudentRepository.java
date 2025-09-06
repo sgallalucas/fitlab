@@ -6,4 +6,6 @@ import sgallalucas.fitlab.model.Student;
 import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
+
+    Student findByEmail(String email);
 }

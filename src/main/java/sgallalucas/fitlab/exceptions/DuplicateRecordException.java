@@ -1,0 +1,7 @@
+package sgallalucas.fitlab.exceptions;
+
+public class DuplicateRecordException extends RuntimeException {
+    public DuplicateRecordException(String message) {
+        super(message);
+    }
+}

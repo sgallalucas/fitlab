@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import sgallalucas.fitlab.dtos.StudentDto;
 import sgallalucas.fitlab.model.Student;
 import sgallalucas.fitlab.repositories.StudentRepository;
+import sgallalucas.fitlab.validators.StudentValidator;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,8 +15,10 @@ import java.util.UUID;
 public class StudentService {
 
     private final StudentRepository repository;
+    private final StudentValidator validator;
 
     public Student save(Student student) {
+        validator.validation(student.getEmail());
         return repository.save(student);
     }
 
