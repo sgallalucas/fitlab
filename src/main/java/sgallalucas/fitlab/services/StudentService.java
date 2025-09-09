@@ -1,5 +1,6 @@
 package sgallalucas.fitlab.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sgallalucas.fitlab.dtos.StudentDto;
@@ -27,7 +28,7 @@ public class StudentService {
 
     public Student findById(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
     }
 
     public List<Student> findAll() {
