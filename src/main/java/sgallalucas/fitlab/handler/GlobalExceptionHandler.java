@@ -40,9 +40,9 @@ public class GlobalExceptionHandler {
 
         ErrorResponseDetails details = new ErrorResponseDetails(
                 HttpStatus.CONFLICT.value(),
-                "Validation error",
+                e.getMessage(),
                 LocalDateTime.now(),
-                List.of(new FieldErrorDetails("email", e.getMessage()))
+                List.of()
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(details);
     }
@@ -84,15 +84,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponseDetails> handleRuntimeException(RuntimeException e) {
-
-        ErrorResponseDetails details = new ErrorResponseDetails(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Unexpected error. Try again later",
-                LocalDateTime.now(),
-                List.of()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(details);
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<ErrorResponseDetails> handleRuntimeException(RuntimeException e) {
+//
+//        ErrorResponseDetails details = new ErrorResponseDetails(
+//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                "Unexpected error. Try again",
+//                LocalDateTime.now(),
+//                List.of()
+//        );
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(details);
+//    }
 }

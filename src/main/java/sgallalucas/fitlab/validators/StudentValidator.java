@@ -6,6 +6,8 @@ import sgallalucas.fitlab.exceptions.DuplicateRecordException;
 import sgallalucas.fitlab.model.Student;
 import sgallalucas.fitlab.repositories.StudentRepository;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class StudentValidator {

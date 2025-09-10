@@ -6,6 +6,8 @@ import sgallalucas.fitlab.exceptions.DuplicateRecordException;
 import sgallalucas.fitlab.model.Professor;
 import sgallalucas.fitlab.repositories.ProfessorRepository;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ProfessorValidator {
