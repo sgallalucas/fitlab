@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import sgallalucas.fitlab.dtos.errors.ErrorResponseDetails;
 import sgallalucas.fitlab.dtos.errors.FieldErrorDetails;
@@ -19,69 +20,39 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponseDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErrorResponseDetails handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<FieldError> fieldErrors = e.getFieldErrors();
 
-        List<FieldErrorDetails> fieldErrorDetails = fieldErrors.stream().map(fe -> new FieldErrorDetails(
-                fe.getField(), fe.getDefaultMessage())).toList();
+        List<FieldErrorDetails> fieldErrorDetails = fieldErrors.stream().map(
+                fe -> new FieldErrorDetails(fe.getField(), fe.getDefaultMessage())).toList();
 
-        ErrorResponseDetails details = new ErrorResponseDetails(
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "Validation error",
-                LocalDateTime.now(),
-                fieldErrorDetails
-        );
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(details);
+        return new ErrorResponseDetails(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(), "Validation error", LocalDateTime.now(), fieldErrorDetails);
     }
 
     @ExceptionHandler(DuplicateRecordException.class)
-    public ResponseEntity<ErrorResponseDetails> handleDuplicateRecordException(DuplicateRecordException e) {
-
-        ErrorResponseDetails details = new ErrorResponseDetails(
-                HttpStatus.CONFLICT.value(),
-                e.getMessage(),
-                LocalDateTime.now(),
-                List.of()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(details);
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponseDetails handleDuplicateRecordException(DuplicateRecordException e) {
+        return new ErrorResponseDetails(HttpStatus.CONFLICT.value(), e.getMessage(), LocalDateTime.now(), List.of());
     }
 
     @ExceptionHandler(NotAllowedOperationException.class)
-    public ResponseEntity<ErrorResponseDetails> handleNotAllowedOperationException(NotAllowedOperationException e) {
-
-        ErrorResponseDetails details = new ErrorResponseDetails(
-                HttpStatus.BAD_REQUEST.value(),
-                "Not allowed. " + e.getMessage(),
-                LocalDateTime.now(),
-                List.of()
-        );
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDetails handleNotAllowedOperationException(NotAllowedOperationException e) {
+        return new ErrorResponseDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage(), LocalDateTime.now(), List.of());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponseDetails> handelEntityNotFoundException(EntityNotFoundException e) {
-
-        ErrorResponseDetails details = new ErrorResponseDetails(
-                HttpStatus.NOT_FOUND.value(),
-                e.getMessage(),
-                LocalDateTime.now(),
-                List.of()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(details);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponseDetails handelEntityNotFoundException(EntityNotFoundException e) {
+        return new ErrorResponseDetails(HttpStatus.NOT_FOUND.value(), e.getMessage(), LocalDateTime.now(), List.of());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponseDetails> handleIllegalArgumentException(IllegalArgumentException e) {
-
-        ErrorResponseDetails details = new ErrorResponseDetails(
-                HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(),
-                LocalDateTime.now(),
-                List.of()
-        );
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(details);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDetails handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ErrorResponseDetails(HttpStatus.BAD_REQUEST.value(), e.getMessage(), LocalDateTime.now(), List.of());
     }
 
 //    @ExceptionHandler(RuntimeException.class)
